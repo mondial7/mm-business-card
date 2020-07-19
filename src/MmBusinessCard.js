@@ -1,4 +1,7 @@
 import { html, css, LitElement } from 'lit-element';
+import { classMap } from 'lit-html/directives/class-map';
+
+const descriptionClass = { close: true };
 
 export class MmBusinessCard extends LitElement {
   static get styles() {
@@ -7,10 +10,6 @@ export class MmBusinessCard extends LitElement {
           0% { transform: scale(1); opacity: 1; }
           99% { transform: scale(2); opacity: 0; }
           100% { z-index: -2; opacity: 0; }
-      }
-
-      * {
-        box-sizing: border-box;
       }
 
       :host {
@@ -45,17 +44,17 @@ export class MmBusinessCard extends LitElement {
       #my_pic,
       #description,
       #placeholder {
-          position: absolute;
-          width: 300px;
-          height: 300px;
-          margin: auto;
-          border-radius: 50%;
-          transition: all 300ms;
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        margin: auto;
+        border-radius: 50%;
+        transition: all 300ms;
       }
 
       #placeholder {
-          background-color: #fbfbfb;
-          transform: scale(1.05);
+        background-color: #fbfbfb;
+        transform: scale(1.05);
       }
 
       #description {
@@ -176,6 +175,15 @@ export class MmBusinessCard extends LitElement {
       linkedin: { type: String },
       curriculum: { type: String },
       topics: { type: Array },
+      description: {
+        type: String,
+        attribute: false,
+      },
+      classes: {
+        type: Object,
+        attribute: false,
+      },
+      placeholderZ: { type: String, attribute: false }
     };
   }
 
@@ -183,11 +191,41 @@ export class MmBusinessCard extends LitElement {
     super();
     this.title = 'Hey there';
     this.topics = [];
-    // ...
+    this.description = '';
+    this.classes = {
+      picture: '',
+      description: 'close',
+      placeholder: 'close',
+    };
+    this.placeholderZ = 'z-index:-1'
   }
 
-  __showTopic() {
-    // ...
+  __hideTopic() {
+    this.classes = {
+      ...this.classes,
+      description: 'close',
+      picture: '',
+    }
+  }
+
+  __showTopic(i) {
+    return () => {
+      this.classes = {
+        ...this.classes,
+        placeholder: '',
+      }
+      this.placeholderZ = ''
+      this.description = this.topics[i].description
+      setTimeout(() => { 
+        this.classes = {
+          ...this.classes,
+          description: '',
+          picture: 'close',
+          placeholder: 'close',
+        }
+        this.placeholderZ = 'z-index:-2'
+      }, 300)
+    }
   }
 
   render() {
@@ -195,14 +233,12 @@ export class MmBusinessCard extends LitElement {
       <h1>${this.title}</h1>
       
       <div class="bubble__container">
-          
-          <img alt="${this.title} Picture" src="${this.picture}" id="my_pic" />
-          <section id="description" class="close">
-              <div id="description_close" onclick="hideDescription()">x</div>
-              <div id="description_content"></div>
+          <img alt="${this.title} Picture" src="${this.picture}" id="my_pic"  class="${this.classes.picture}"/>
+          <section id="description" class="${this.classes.description}">
+              <div id="description_close" @click=${this.__hideTopic}>x</div>
+              <div id="description_content">${this.description}</div>
           </section>
-          <section id="placeholder" style="z-index:-1" class="close"></section>
-          
+          <section id="placeholder" style="${this.placeholderZ}" class="${this.classes.placeholder}"></section>
       </div>
       
       <section id="socials">
@@ -244,7 +280,7 @@ export class MmBusinessCard extends LitElement {
       </section>
       <section class="topics">
         ${this.topics.map(({ title }, i) => html`
-        <div class="topic"><span class="lset" data-target="topic${i}" @click=${this.__showTopic} id="l${i}">${title}</span><br><span class="topics__line"></span></div>
+        <div class="topic"><span class="lset" @click=${this.__showTopic(i)} id="l${i}">${title}</span><br><span class="topics__line"></span></div>
         `)}
       </section>
     `;

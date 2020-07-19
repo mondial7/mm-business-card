@@ -17,11 +17,22 @@
 
     const title = 'Marco Mondini';
     const picture = 'http://mondspace.com/avatar.jpg';
+    const topics = [
+      {
+        title: 'web engineer',
+        description: `abc`,
+      },
+      {
+        title: 'web engineer',
+        description: `asbdfibsd jnfasdn flasdnf ojnsfnas`,
+      },
+    ];
     render(
       html`
         <mm-business-card 
           title=${title}
-          picture=${picture}>
+          picture=${picture}
+          topics=${JSON.stringify(topics)}>
           some more light-dom
         </mm-business-card>
       `,
