@@ -15,10 +15,13 @@
     import { html, render } from 'lit-html';
     import '../mm-business-card.js';
 
-    const title = 'Hello owc World!';
+    const title = 'Marco Mondini';
+    const picture = 'http://mondspace.com/avatar.jpg';
     render(
       html`
-        <mm-business-card .title=${title}>
+        <mm-business-card 
+          title=${title}
+          picture=${picture}>
           some more light-dom
         </mm-business-card>
       `,
