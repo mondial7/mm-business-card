@@ -1,7 +1,4 @@
 import { html, css, LitElement } from 'lit-element';
-import { classMap } from 'lit-html/directives/class-map';
-
-const descriptionClass = { close: true };
 
 export class MmBusinessCard extends LitElement {
   static get styles() {
@@ -214,7 +211,7 @@ export class MmBusinessCard extends LitElement {
         ...this.classes,
         placeholder: '',
       }
-      this.placeholderZ = ''
+      // this.placeholderZ = 'z-index:-1'
       this.description = this.topics[i].description
       setTimeout(() => { 
         this.classes = {
@@ -224,7 +221,7 @@ export class MmBusinessCard extends LitElement {
           placeholder: 'close',
         }
         this.placeholderZ = 'z-index:-2'
-      }, 300)
+      }, 100)
     }
   }
 
