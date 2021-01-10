@@ -1,0 +1,158 @@
+
+      @keyframes bubble_out {
+        0% { transform: scale(1); opacity: 1; }
+        99% { transform: scale(2); opacity: 0; }
+        100% { z-index: -2; opacity: 0; }
+    }
+
+    :host {
+      display: block;
+      color: var(--mm-business-card-text-color, #C8E0F4);
+      background-color: #031927;
+      text-align: center;
+      font-family: arial, sans-serif;
+      margin: 0;
+      max-width: 100%;
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    a {
+        color: #222;
+    }
+
+    h1 {
+        margin: 5px auto 20px;
+        font-variant: small-caps;
+    }
+
+    .bubble__container {
+        position: relative;
+        width: 300px;
+        height: 300px;
+        margin: auto;
+        text-align: left;
+    }
+
+    #my_pic,
+    #description,
+    #placeholder {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      margin: auto;
+      border-radius: 50%;
+      transition: all 300ms;
+    }
+
+    #placeholder {
+      background-color: #fbfbfb;
+      transform: scale(1.05);
+    }
+
+    #description {
+        background-color: #fbfbfb;
+        text-align: center;
+        color: #031927;
+    }
+
+    #description p,
+    #description h1 {
+      margin: 0px;
+      padding: 10px;
+    }
+
+    @media all and (max-width: 500px) { 
+      #description h1 {
+        font-size: 80%;
+      }
+    }
+
+    #description_content {
+      position: relative;
+      top: 60px;
+      padding: 5px;
+    }
+
+    #description_close {
+      display: block;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      position: absolute;
+      top: 2px;
+      left: calc(50% - 15px);
+      cursor: pointer;
+    }
+
+    .close {
+      animation: bubble_out 300ms ease-out forwards !important;
+    }
+
+    #socials {
+      position: relative;
+      text-align: center;
+    }
+
+    #socials > a {
+        position: absolute;
+        display: inline-block;
+    }
+
+    #socials > a:nth-child(1){
+        top: -35px;
+        left: calc(50% + 100px);
+    }
+
+    #socials > a:nth-child(2){
+        top: -1px;
+        left: calc(50% + 44px);
+    }
+
+    #socials > a:nth-child(3){
+        top: 12px;
+        left: calc(50% - 22px);
+    }
+
+    #socials .mm_icon.curriculum text{
+        font: bold 330px monospace;
+    }
+
+    #socials .mm_icon {
+        width: 45px;
+        height: 45px;
+        z-index: 0;
+        fill: #508AA8;
+        transition: all 300ms;
+        -webkit-transition: all 300ms;
+    }
+
+    #socials .mm_icon:hover {
+        z-index: 1;
+        fill: #BA1200;
+        transform: scale(2,2);
+        -webkit-transform: scale(2,2);
+    }
+
+    .topics {
+        margin-top: 90px;
+        line-height: 1.4em;
+    }
+
+    .topics span {
+        cursor: pointer;
+        transition: all 300ms;
+    }
+
+    .topics span:hover {
+        color: #fff;
+    }
+
+    .topics__line {
+        position: relative;
+        top: -10px;
+        display: inline-block;
+        width: 50px;
+        height: 1px;
+        background-color: #000;
+    }
