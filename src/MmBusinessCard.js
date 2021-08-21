@@ -18,6 +18,10 @@ export class MmBusinessCard extends LitElement {
         }
       }
 
+      .close {
+        animation: bubble_out 300ms ease-out forwards !important;
+      }
+
       :host {
         display: block;
         color: var(--mm-business-card-text-color, #c8e0f4);
@@ -39,7 +43,7 @@ export class MmBusinessCard extends LitElement {
         font-variant: small-caps;
       }
 
-      .bubble__container {
+      .bubble {
         position: relative;
         width: 300px;
         height: 300px;
@@ -47,47 +51,30 @@ export class MmBusinessCard extends LitElement {
         text-align: left;
       }
 
-      #my_pic,
-      #description,
-      #placeholder {
+      .picture,
+      .description,
+      .placeholder {
         position: absolute;
         width: 300px;
         height: 300px;
         margin: auto;
         border-radius: 50%;
+        overflow: hidden;
         transition: all 300ms;
       }
 
-      #placeholder {
+      .placeholder {
         background-color: #fbfbfb;
         transform: scale(1.05);
       }
 
-      #description {
+      .description {
         background-color: #fbfbfb;
         text-align: center;
         color: #031927;
       }
 
-      #description p,
-      #description h1 {
-        margin: 0px;
-        padding: 10px;
-      }
-
-      @media all and (max-width: 500px) {
-        #description h1 {
-          font-size: 80%;
-        }
-      }
-
-      #description_content {
-        position: relative;
-        top: 60px;
-        padding: 5px;
-      }
-
-      #description_close {
+      .description__close {
         display: block;
         width: 30px;
         height: 30px;
@@ -98,40 +85,38 @@ export class MmBusinessCard extends LitElement {
         cursor: pointer;
       }
 
-      .close {
-        animation: bubble_out 300ms ease-out forwards !important;
+      .description__content {
+        position: relative;
+        top: 60px;
+        padding: 5px;
       }
 
-      #socials {
+      .socials {
         position: relative;
         text-align: center;
       }
 
-      #socials > a {
+      .socials > a {
         position: absolute;
         display: inline-block;
       }
 
-      #socials > a:nth-child(1) {
+      .socials > a:nth-child(1) {
         top: -35px;
         left: calc(50% + 100px);
       }
 
-      #socials > a:nth-child(2) {
+      .socials > a:nth-child(2) {
         top: -1px;
         left: calc(50% + 44px);
       }
 
-      #socials > a:nth-child(3) {
+      .socials > a:nth-child(3) {
         top: 12px;
         left: calc(50% - 22px);
       }
 
-      #socials .mm_icon.curriculum text {
-        font: bold 330px monospace;
-      }
-
-      #socials .mm_icon {
+      .socials__icon {
         width: 45px;
         height: 45px;
         z-index: 0;
@@ -140,11 +125,15 @@ export class MmBusinessCard extends LitElement {
         -webkit-transition: all 300ms;
       }
 
-      #socials .mm_icon:hover {
+      .socials__icon:hover {
         z-index: 1;
         fill: #ba1200;
         transform: scale(2, 2);
         -webkit-transform: scale(2, 2);
+      }
+
+      .socials__icon--curriculum text {
+        font: bold 330px monospace;
       }
 
       .topics {
@@ -152,16 +141,16 @@ export class MmBusinessCard extends LitElement {
         line-height: 1.4em;
       }
 
-      .topics span {
+      .topics__topic {
         cursor: pointer;
         transition: all 300ms;
       }
 
-      .topics span:hover {
+      .topics__topic:hover {
         color: #fff;
       }
 
-      .topics__line {
+      .topics__underline {
         position: relative;
         top: -10px;
         display: inline-block;
@@ -184,8 +173,7 @@ export class MmBusinessCard extends LitElement {
         type: String,
         attribute: false,
       },
-      classes: {
-        type: Object,
+      isDescriptionVisible: {
         attribute: false,
       },
     };
@@ -200,37 +188,18 @@ export class MmBusinessCard extends LitElement {
     this.linkedin = '';
     this.curriculum = '';
     this.description = '';
-    this.classes = {
-      picture: '',
-      description: 'close',
-      placeholder: 'close',
-    };
+    this.isDescriptionVisible = false;
   }
 
   __hideTopic() {
     this.description = '';
-    this.classes = {
-      ...this.classes,
-      description: 'close',
-      picture: '',
-    };
+    this.isDescriptionVisible = false;
   }
 
   __showTopic(i) {
     return () => {
-      this.classes = {
-        ...this.classes,
-        placeholder: '',
-      };
       this.description = this.topics[i];
-      setTimeout(() => {
-        this.classes = {
-          ...this.classes,
-          description: '',
-          picture: 'close',
-          placeholder: 'close',
-        };
-      }, 100);
+      this.isDescriptionVisible = true;
     };
   }
 
@@ -238,25 +207,24 @@ export class MmBusinessCard extends LitElement {
     return html`
       <h1>${this.title}</h1>
 
-      <div class="bubble__container">
+      <div class="bubble">
         <img
           alt="${this.title} Picture"
           src="${this.picture}"
-          id="my_pic"
-          class="${this.classes.picture}"
+          class="picture ${!this.isDescriptionVisible ? '' : 'picture--hidden'}"
         />
-        <section id="description" class="${this.classes.description}">
-          <div class="description_close" id="close" @click=${this.__hideTopic}>
+        <section class="description">
+          <div class="description__close" id="close" @click=${this.__hideTopic}>
             x
           </div>
-          <div id="description_content">${this.description}</div>
+          <div class="description__content">${this.description}</div>
         </section>
-        <section id="placeholder" class="${this.classes.placeholder}"></section>
+        <section class="placeholder"></section>
       </div>
 
-      <section id="socials">
+      <section class="socials">
         <a href="${this.linkedin}" target="_blank" title="Linkedin Profile">
-          <svg class="mm_icon linkedin" viewBox="0 0 512 512">
+          <svg class="socials__icon" viewBox="0 0 512 512">
             <g>
               <path
                 d="M256,0C114.609,0,0,114.609,0,256c0,141.391,114.609,256,256,256c141.391,0,256-114.609,256-256   C512,114.609,397.391,0,256,0z M256,472c-119.297,0-216-96.703-216-216S136.703,40,256,40s216,96.703,216,216S375.297,472,256,472z"
@@ -272,7 +240,7 @@ export class MmBusinessCard extends LitElement {
           </svg>
         </a>
         <a href="${this.github}" target="_blank" title="GitHub Profile">
-          <svg class="mm_icon github" viewBox="0 0 512 512">
+          <svg class="socials__icon" viewBox="0 0 512 512">
             <g>
               <path
                 d="M256,0C114.615,0,0,114.615,0,256s114.615,256,256,256s256-114.615,256-256S397.385,0,256,0z M408.027,408.027 c-19.76,19.759-42.756,35.267-68.354,46.094c-6.502,2.75-13.105,5.164-19.801,7.246V423c0-20.167-6.916-35-20.75-44.5 c8.668-0.833,16.625-2,23.875-3.5s14.918-3.667,23-6.5c8.084-2.833,15.334-6.208,21.75-10.125c6.418-3.917,12.584-9,18.5-15.25   c5.918-6.25,10.875-13.333,14.875-21.25s7.168-17.417,9.5-28.5c2.334-11.083,3.5-23.292,3.5-36.625c0-25.833-8.416-47.833-25.25-66 c7.668-20,6.834-41.75-2.5-65.25l-6.25-0.75c-4.332-0.5-12.125,1.333-23.375,5.5s-23.875,11-37.875,20.5 c-19.832-5.5-40.416-8.25-61.749-8.25c-21.5,0-42,2.75-61.5,8.25c-8.833-6-17.208-10.958-25.125-14.875s-14.25-6.583-19-8   s-9.167-2.292-13.25-2.625s-6.708-0.417-7.875-0.25s-2,0.333-2.5,0.5c-9.333,23.667-10.167,45.417-2.5,65.25 c-16.833,18.167-25.25,40.167-25.25,66c0,13.333,1.167,25.542,3.5,36.625s5.5,20.583,9.5,28.5s8.958,15,14.875,21.25 s12.083,11.333,18.5,15.25s13.667,7.292,21.75,10.125s15.75,5,23,6.5s15.208,2.667,23.875,3.5c-13.667,9.333-20.5,24.167-20.5,44.5   v39.115c-7.549-2.247-14.99-4.902-22.3-7.994c-25.597-10.827-48.594-26.335-68.353-46.094 c-19.758-19.758-35.267-42.756-46.093-68.354C46.679,313.195,41,285.043,41,256s5.679-57.195,16.879-83.675   c10.827-25.597,26.335-48.594,46.093-68.353c19.758-19.759,42.756-35.267,68.353-46.093C198.805,46.679,226.957,41,256,41 s57.195,5.679,83.676,16.879c25.598,10.827,48.594,26.335,68.354,46.093c19.758,19.758,35.266,42.756,46.092,68.353 C465.32,198.805,471,226.957,471,256s-5.68,57.195-16.879,83.675C443.295,365.271,427.785,388.27,408.027,408.027z"
@@ -285,7 +253,10 @@ export class MmBusinessCard extends LitElement {
           target="_blank"
           title="Résumé - Curriculum Vitae"
         >
-          <svg class="mm_icon curriculum" viewBox="0 0 512 512">
+          <svg
+            class="socials__icon socials__icon--curriculum"
+            viewBox="0 0 512 512"
+          >
             <g>
               <g>
                 <path
@@ -297,14 +268,18 @@ export class MmBusinessCard extends LitElement {
           </svg>
         </a>
       </section>
+
       <section class="topics">
         ${this.topics.map(
           (topic, i) => html`
-            <div class="topic">
-              <span id="topic-${i}" class="lset" @click=${this.__showTopic(i)}
-                >${topic}</span
-              ><br /><span class="topics__line"></span>
+            <div
+              class="topics__topic"
+              id="topic-${i}"
+              @click=${this.__showTopic(i)}
+            >
+              ${topic}
             </div>
+            <div class="topics__underline"></div>
           `
         )}
       </section>

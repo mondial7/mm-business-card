@@ -9,35 +9,26 @@
   </style>
 </head>
 <body>
-  <div id="demo"></div>
+<div id="demo"></div>
 
-  <script type="module">
-    import { html, render } from 'lit-html';
-    import '../mm-business-card.js';
+<script type="module">
+  import { html, render } from 'lit-html';
+  import '../mm-business-card.js';
 
-    const title = 'Marco Mondini';
-    const picture = 'http://mondspace.com/avatar.jpg';
-    const topics = [
-      {
-        title: 'back-end engineer',
-        description: `lorem ipsum`,
-      },
-      {
-        title: 'front-end engineer',
-        description: `longer lorem ipsum`,
-      },
-    ];
-    render(
-      html`
-        <mm-business-card 
+  const title = 'Marco Mondini';
+  const picture = 'http://mondspace.com/avatar.jpg';
+  const topics = [`lorem ipsum`, `longer lorem ipsum`];
+  render(
+    html`
+        <mm-business-card
           title=${title}
           picture=${picture}
           topics=${JSON.stringify(topics)}>
           some more light-dom
         </mm-business-card>
       `,
-      document.querySelector('#demo')
-    );
-  </script>
+    document.querySelector('#demo')
+  );
+</script>
 </body>
 </html>

@@ -31,13 +31,27 @@ describe('MmBusinessCard', () => {
     expect(el.description).to.equal('Topic 1');
   });
 
+  it('does not hide the picture', () => {
+    expect(el.shadowRoot.querySelector('img')).to.have.attr(
+      'class',
+      'picture '
+    );
+  });
+
   describe('when the first topic is selected', () => {
-    beforeEach(() => {
-      el.shadowRoot.getElementById('topic-0').click();
+    beforeEach(async () => {
+      await el.shadowRoot.getElementById('topic-0').click();
     });
 
-    it('updates the description when clicking the second topic', () => {
-      el.shadowRoot.getElementById('topic-1').click();
+    it('hides the picture', () => {
+      expect(el.shadowRoot.querySelector('img')).to.have.attr(
+        'class',
+        'picture picture--hidden'
+      );
+    });
+
+    it('updates the description when clicking the second topic', async () => {
+      await el.shadowRoot.getElementById('topic-1').click();
 
       expect(el.description).to.equal('Topic 2');
     });
