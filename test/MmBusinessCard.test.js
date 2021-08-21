@@ -31,9 +31,21 @@ describe('MmBusinessCard', () => {
     expect(el.description).to.equal('Topic 1');
   });
 
-  it('updates the description with the second topic', () => {
-    el.shadowRoot.getElementById('topic-1').click();
+  describe('when the first topic is selected', () => {
+    beforeEach(() => {
+      el.shadowRoot.getElementById('topic-0').click();
+    });
 
-    expect(el.description).to.equal('Topic 2');
+    it('updates the description when clicking the second topic', () => {
+      el.shadowRoot.getElementById('topic-1').click();
+
+      expect(el.description).to.equal('Topic 2');
+    });
+
+    it('resets the description when clicking the close button', () => {
+      el.shadowRoot.getElementById('close').click();
+
+      expect(el.description).to.equal('');
+    });
   });
 });

@@ -208,6 +208,7 @@ export class MmBusinessCard extends LitElement {
   }
 
   __hideTopic() {
+    this.description = '';
     this.classes = {
       ...this.classes,
       description: 'close',
@@ -245,7 +246,9 @@ export class MmBusinessCard extends LitElement {
           class="${this.classes.picture}"
         />
         <section id="description" class="${this.classes.description}">
-          <div id="description_close" @click=${this.__hideTopic}>x</div>
+          <div class="description_close" id="close" @click=${this.__hideTopic}>
+            x
+          </div>
           <div id="description_content">${this.description}</div>
         </section>
         <section id="placeholder" class="${this.classes.placeholder}"></section>
