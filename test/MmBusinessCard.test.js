@@ -43,10 +43,14 @@ describe('MmBusinessCard', () => {
       await el.shadowRoot.getElementById('topic-0').click();
     });
 
-    it('hides the picture', () => {
+    it('hides the picture and placeholder', () => {
       expect(el.shadowRoot.querySelector('img')).to.have.attr(
         'class',
         'picture picture--hidden'
+      );
+      expect(el.shadowRoot.getElementById('placeholder')).to.have.attr(
+        'class',
+        'placeholder placeholder--hidden'
       );
     });
 

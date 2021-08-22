@@ -18,7 +18,8 @@ export class MmBusinessCard extends LitElement {
         }
       }
 
-      .close {
+      .picture--hidden,
+      .placeholder--hidden {
         animation: bubble_out 300ms ease-out forwards !important;
       }
 
@@ -211,7 +212,7 @@ export class MmBusinessCard extends LitElement {
         <img
           alt="${this.title} Picture"
           src="${this.picture}"
-          class="picture ${!this.isDescriptionVisible ? '' : 'picture--hidden'}"
+          class="picture ${this.isDescriptionVisible ? 'picture--hidden' : ''}"
         />
         <section class="description">
           <div class="description__close" id="close" @click=${this.__hideTopic}>
@@ -219,7 +220,12 @@ export class MmBusinessCard extends LitElement {
           </div>
           <div class="description__content">${this.description}</div>
         </section>
-        <section class="placeholder"></section>
+        <section
+          class="placeholder ${this.isDescriptionVisible
+            ? 'placeholder--hidden'
+            : ''}"
+          id="placeholder"
+        ></section>
       </div>
 
       <section class="socials">
